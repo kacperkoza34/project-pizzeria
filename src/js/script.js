@@ -64,8 +64,6 @@
       thisProduct.getElements();
       thisProduct.initOrderForm();
       thisProduct.processOrder();
-
-//      console.log('new Product:', thisProduct);
     }
     renderInMenu(){
       const thisProduct = this;
@@ -74,99 +72,93 @@
       const generatedHTML = templates.menuProduct(thisProduct.data);
       /* create element using utils.createDOMFromHTML */
       thisProduct.element = utils.createDOMFromHTML(generatedHTML);
-//      console.log('co to jest::::',thisProduct.element);
       /* find menu container */
       const menuContainer = document.querySelector(select.containerOf.menu);
       /* add element to menu */
       menuContainer.appendChild(thisProduct.element);
-      }
+    }
 
-      initAccordion(){
-        const thisProduct = this;
-        const clickableElement = thisProduct.element.querySelector(select.menuProduct.clickable);
-        clickableElement.addEventListener('click', function(event){
-          event.preventDefault();
-            thisProduct.element.classList.add('active');
-            const activeProducts = document.querySelectorAll('.product.active');
-            for(let activeProduct of activeProducts){
-              if(activeProduct != thisProduct.element){
-                activeProduct.classList.remove('active');
-              }
-            }
-        });
-      }
-
-  initOrderForm(){
-    const thisProduct = this;
-
-    thisProduct.form.addEventListener('submit', function(event){
-      event.preventDefault();
-      thisProduct.processOrder();
-    });
-
-    for(let input of thisProduct.formInputs){
-      input.addEventListener('change', function(){
-        thisProduct.processOrder();
+    initAccordion(){
+      const thisProduct = this;
+      const clickableElement = thisProduct.element.querySelector(select.menuProduct.clickable);
+      clickableElement.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.element.classList.add('active');
+        const activeProducts = document.querySelectorAll('.product.active');
+        for(let activeProduct of activeProducts){
+          if(activeProduct != thisProduct.element){
+            activeProduct.classList.remove('active');
+          }
+        }
       });
     }
 
-    thisProduct.cartButton.addEventListener('click', function(event){
-      event.preventDefault();
-      thisProduct.processOrder();
-    });
+    initOrderForm(){
+      const thisProduct = this;
+      thisProduct.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
 
-  }
+      for(let input of thisProduct.formInputs){
+        input.addEventListener('change', function(){
+        thisProduct.processOrder();
+        });
+      }
 
-  processOrder(){
-    const thisProduct = this;
-    const formData = utils.serializeFormToObject(thisProduct.form);
-    let price = thisProduct.data.price;
-    for(let paramId in thisProduct.data.params){
-      const param = thisProduct.data.params[paramId];
-      for(let optionId in param.options){
-        const option =  param.options[optionId];
-    //    console.log(formData[paramId]);
+      thisProduct.cartButton.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
 
-        const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+    }
 
+    processOrder(){
+      const thisProduct = this;
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      let price = thisProduct.data.price;
+      for(let paramId in thisProduct.data.params){
+        const param = thisProduct.data.params[paramId];
+        for(let optionId in param.options){
+          const option =  param.options[optionId];
+          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
 
+          if(optionSelected && !option.default){
+            price = price + option.price;
+            console.log(price);
+          }
+          else if (!optionSelected && option.default){
+            price = price - option.price;
+          }
 
-        if(optionSelected && !option.default){
-          price = price + option.price;
-          console.log(price);
-        }
-        else if (!optionSelected && option.default){
-          price = price - option.price;
-        }
+          const selector = '.' + paramId + '-' + optionId;
+          const selectedImg = thisProduct.imageWrapper.querySelector(selector);
+          console.log(selector, selectedImg);
 
-        const selector = '.' + paramId + '-' + optionId;
-        const selectedImg = thisProduct.imageWrapper.querySelector(selector);
-        console.log(selector, selectedImg);
-
-        if(optionSelected){
-          if(selectedImg) selectedImg.classList.add('active');
-        }
-        else{
-          if(selectedImg) selectedImg.classList.remove('active');
+          if(optionSelected){
+            if(selectedImg) selectedImg.classList.add('active');
+          }
+          else{
+            if(selectedImg) selectedImg.classList.remove('active');
+          }
         }
       }
+      thisProduct.priceElem.innerHTML = price;
     }
-    thisProduct.priceElem.innerHTML = price;
+
+
+
+    getElements(){
+      const thisProduct = this;
+
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper  = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+    }
   }
-
-
-
-  getElements(){
-    const thisProduct = this;
-
-    thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
-    thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
-    thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
-    thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
-    thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
-    thisProduct.imageWrapper  = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
-  }
-};
 
   const app = {
     initMenu(){
