@@ -83,28 +83,16 @@
 
       initAccordion(){
         const thisProduct = this;
-        /* find the clickable trigger (the element that should react to clicking) */
         const clickableElement = thisProduct.element.querySelector(select.menuProduct.clickable);
-        /* START: click event listner to trigger */
         clickableElement.addEventListener('click', function(event){
-          /* prevent default action for event */
           event.preventDefault();
-            /* toggle active class on element of thisProduct */
             thisProduct.element.classList.add('active');
-            /* find all active products */
             const activeProducts = document.querySelectorAll('.active');
-            /* START LOOP: for each active product */
             for(let activeProduct of activeProducts){
-              /* START: if the active product isn't the element of thisProduct */
               if(activeProduct != thisProduct.element){
-                /* remove class active for the active product */
                 activeProduct.classList.remove('active');
               }
-              /* END: if the active product isn't the element of thisProduct */
-
-              /* END LOOP: for each active product */
             }
-            /* END: click event listener to trigger */
         });
       }
 
@@ -131,62 +119,25 @@
 
   processOrder(){
     const thisProduct = this;
-
-    /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
     const formData = utils.serializeFormToObject(thisProduct.form);
-    console.log('kkk', formData);
-   /* set variable price to equal thisProduct.data.price */
-   let price = thisProduct.data.price;
-   /* START LOOP: for each paramId in thisProduct.data.params */
-   for(let param in thisProduct.data.params){
-     /* save the element in thisProduct.data.params with key paramId as const param */
-     const params = thisProduct.data.params[param];
-     /* START LOOP: for each optionId in param.options */
-     console.log('wywolanie');
-     for(let paramsValue in params.options){
-       /* save the element in param.options with key optionId as const option */
-       const option =  params.options[paramsValue];
-       /* START IF: if option is selected and option is not default */
-       if(!option.default){
-         /* add price of option to variable price */
-         price = price + option.price;
-         console.log(price);
-       }
-       /* END IF: if option is selected and option is not default */
-       /* START ELSE IF: if option is not selected and option is default */
-//       else if(option.default){
-         /* add price of option to variable price */
-//         price += option.price;
-//         console.log(option.price);
-//       }
-         /* deduct price of option from price */
-//         price = price - option.price;
-//       }
-       /* END ELSE IF: if option is not selected and option is default */
-//     }
-     /* END LOOP: for each optionId in param.options */
-   /* END LOOP: for each paramId in thisProduct.data.params */
-
-   /* set the contents of thisProduct.priceElem to be the value of variable price */
-   thisProduct.priceElem = price;
- }
-}
-}
-
-/* MÓJ NIESKUTECZNY POMYSŁ
-    for(let formInput of formInputs){
-      const allInput = formInput.getAttribute('value');
-      console.log(allInput);
-      for(let data in formData){
-//        console.log('test', formData[data]);
-        for(let dataAddition of formData[data]){
-          if(allInput == dataAddition){
-  //          console.log(data ,'dodatek: ', dataAddition, ' jest w zamowieniu');
-          }
+    let price = thisProduct.data.price;
+    for(let paramId in thisProduct.data.params){
+      const param = thisProduct.data.params[paramId];
+      for(let optionId in param.options){
+        const option =  param.options[optionId];
+        const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+        if(optionSelected && !option.default){
+          price = price + option.price;
+          console.log(price);
+        }
+        else if (!optionSelected && option.default){
+          price = price - option.price;
         }
       }
     }
-*/
+    thisProduct.priceElem.innerHTML = price;
+  }
+
 
 
   getElements(){
