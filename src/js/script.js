@@ -87,7 +87,7 @@
         clickableElement.addEventListener('click', function(event){
           event.preventDefault();
             thisProduct.element.classList.add('active');
-            const activeProducts = document.querySelectorAll('.active');
+            const activeProducts = document.querySelectorAll('.product.active');
             for(let activeProduct of activeProducts){
               if(activeProduct != thisProduct.element){
                 activeProduct.classList.remove('active');
@@ -139,19 +139,15 @@
           price = price - option.price;
         }
 
-        const selector = ' .' + paramId + '-' + optionId;
-        const selectedImg = thisProduct.imageWrapper.querySelectorAll(selector);
-        console.log(thisProduct.imageWrapper);
+        const selector = '.' + paramId + '-' + optionId;
+        const selectedImg = thisProduct.imageWrapper.querySelector(selector);
+        console.log(selector, selectedImg);
 
         if(optionSelected){
-          for(let img in selectedImg){
-    //        console.log(selectedImg[img]);
-    //        selectedImg[img].classList.add('active');
-        //  console.log(thisProduct.imageWrapper);
-          }
+          if(selectedImg) selectedImg.classList.add('active');
         }
         else{
-
+          if(selectedImg) selectedImg.classList.remove('active');
         }
       }
     }
