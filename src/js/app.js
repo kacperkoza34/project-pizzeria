@@ -1,10 +1,10 @@
-import {settings, select} from './settings.js';
+import {settings, select, classNames} from './settings.js';
 import utils from './utils.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import AmountWidget from './components/AmountWidget.js';
 import CartProduct from './components/CartProduct.js';
-
+import Booking from './components/Booking.js';
 
 
 const app = {
@@ -13,9 +13,57 @@ const app = {
 
   thisApp.pages = document.querySelector(select.containerOf.pages).children;
 
-  thisApp.activatePage();
+  thisApp.navLinks = document.querySelectorAll(select.nav.links);
 
-},
+
+  const idFromHash = window.location.hash.replace('#/','');
+  console.log('idFromHash:', idFromHash);
+
+  let pageMatchingHash = thisApp.pages[0].id;
+
+  for(let page of thisApp.pages){
+    if(page.id == idFromHash){
+      pageMatchingHash = page.id;
+      break;
+    }
+  }
+
+  thisApp.activatePage(pageMatchingHash);
+
+  for(let link of thisApp.navLinks){
+    link.addEventListener('click', function(event){
+      const clickedElement = this;
+      event.preventDefault();
+      /* get pade id from href attribute */
+      const id = clickedElement.getAttribute('href').replace('#','');
+      /* run thisApp.activatePage with that id */
+      thisApp.activatePage(id);
+      /* change URL hash */
+      window.location.hash = '#/' + id;
+
+      });
+    }
+  },
+
+  activatePage: function(pageId){
+    const thisApp = this;
+    for(let page of thisApp.pages){
+    page.classList.toggle(classNames.pages.active, page.id == pageId);
+    }
+
+    for(let link of thisApp.navLinks){
+      link.classList.toggle(
+        classNames.nav.active,
+        link.getAttribute('href') == '#' + pageId
+      );
+    }
+
+  },
+
+  initBooking: function(){
+    const book = document.querySelector(select.containerOf.booking);
+    new Booking(book);
+  },
 
   initMenu: function(){
       const thisApp = this;
@@ -55,6 +103,8 @@ const app = {
 
       thisApp.initData();
       thisApp.initCart();
+      thisApp.initPages();
+      thisApp.initBooking();
     },
 
   initCart: function(){

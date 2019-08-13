@@ -3,6 +3,8 @@ import utils from '../utils.js';
 import Cart from './Cart.js';
 import Product from './Product.js';
 import CartProduct from './CartProduct.js';
+import Booking from './Booking.js';
+
 
 class AmountWidget{
   constructor(element){
@@ -22,6 +24,7 @@ class AmountWidget{
     const thisWidget = this;
 
     thisWidget.element = element;
+    //console.log(thisWidget.element);
     thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
     thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
     thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
@@ -29,7 +32,6 @@ class AmountWidget{
 
   setValue(value){
     const thisWidget = this;
-
     const newValue = parseInt(value);
 
     /* TODO: Add validation */
