@@ -76,6 +76,11 @@
     cart: {
       defaultDeliveryFee: 20,
     },
+    db: {
+      url: '//localhost:3131',
+      product: 'product',
+      order: 'order',
+    },
     // CODE ADDED END
   };
 
@@ -313,8 +318,13 @@
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = element.querySelector(select.cart.toggleTrigger);
       thisCart.dom.productList = element.querySelector(select.cart.productList);
+      thisCart.dom.form = element.querySelector(select.cart.form);
+
+      thisCart.phone = element.querySelector(select.cart.phone);
+      thisCart.address = element.querySelector(select.cart.address);
 
       thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
+
 
       for(let key of thisCart.renderTotalsKeys){
         thisCart.dom[key] = thisCart.dom.wrapper.querySelectorAll(select.cart[key]);
@@ -338,6 +348,56 @@
       thisCart.dom.productList.addEventListener('remove', function(){
         thisCart.remove(event.detail.cartProduct);
       });
+      thisCart.dom.form.addEventListener('submit', function(){
+        event.preventDefault();
+        thisCart.sendOrder();
+      });
+    }
+
+    sendOrder(){
+      const thisCart = this;
+
+      const url = settings.db.url + '/' + settings.db.order;
+
+      const payload = {
+        address: thisCart.address.value,
+        phone: thisCart.phone.value,
+        subtotalPrice: thisCart.subtotalPrice,
+        deliveryFee: thisCart.deliveryFee,
+        products: [],
+        totalPrice: 'TO DO: FIX BUG',
+        amount: 'TO DO: FIX BUG',
+      };
+
+      let index = 0;
+      for(let product of thisCart.products){
+        payload.products[index] = thisCart.getData(product);
+        index++;
+        //console.log(thisCart.getData(product));
+      }
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      };
+
+      fetch(url, options)
+        .then(function(respons){
+          return respons.json();
+        }).then(function(parsedResponse){
+          console.log('parsedResponse', parsedResponse);
+        });
+
+    }
+    getData(product){
+      const thisCart = this;
+      //console.log('test metody getData:', product);
+      delete product.dom;
+      delete product.amountWidget;
+      return product;
     }
 
     add(menuProduct){
@@ -365,7 +425,7 @@
 
       thisCart.totalNumber = 0;
       thisCart.subtotalPrice = 0;
-      console.log(thisCart.products);
+    //console.log(thisCart.products);
 
       for(let product of thisCart.products){
         thisCart.subtotalPrice  = thisCart.subtotalPrice + product.price;
@@ -472,12 +532,28 @@
     initMenu(){
       const thisApp = this;
       for(let productData in thisApp.data.products){
-        new Product(productData, thisApp.data.products[productData]);
+        new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
       }
     },
     initData: function(){
       const thisApp = this;
-      thisApp.data = dataSource;
+      thisApp.data = {};
+      const url = settings.db.url + '/' + settings.db.product;
+
+      fetch(url)
+        .then(function(rawResposne){
+          return rawResposne.json();
+        })
+        .then(function(parsedResponse){
+          console.log('parsedResponse', parsedResponse);
+          /* save parsedResponse as thisApp.data.products */
+          thisApp.data.products = parsedResponse;
+          /* execute initMenu method */
+          thisApp.initMenu();
+
+        });
+        console.log('thisApp.data', JSON.stringify(thisApp.data));
+
     },
 
     init: function(){
@@ -489,7 +565,6 @@
       //console.log('templates:', templates);
 
       thisApp.initData();
-      thisApp.initMenu();
       thisApp.initCart();
     },
 
