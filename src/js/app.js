@@ -8,12 +8,22 @@ import CartProduct from './components/CartProduct.js';
 
 
 const app = {
-  initMenu(){
+  initPages: function(){
+  const thisApp = this;
+
+  thisApp.pages = document.querySelector(select.containerOf.pages).children;
+
+  thisApp.activatePage();
+
+},
+
+  initMenu: function(){
       const thisApp = this;
       for(let productData in thisApp.data.products){
         new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
       }
     },
+
   initData: function(){
       const thisApp = this;
       thisApp.data = {};
