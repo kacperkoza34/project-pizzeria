@@ -74,15 +74,14 @@ class Cart{
       subtotalPrice: thisCart.subtotalPrice,
       deliveryFee: thisCart.deliveryFee,
       products: [],
-      totalPrice: 'TO DO: FIX BUG',
-      amount: 'TO DO: FIX BUG',
+      totalPrice: thisCart.totalPrice,
+      amount: thisCart.totalNumber,
     };
 
     let index = 0;
     for(let product of thisCart.products){
-      payload.products[index] = thisCart.getData(product);
+      payload.products[index] = thisCart.getData(JSON.parse(JSON.stringify(product)));
       index++;
-      //console.log(thisCart.getData(product));
     }
 
     const options = {
@@ -110,7 +109,9 @@ class Cart{
   }
 
   add(menuProduct){
+
     const thisCart = this;
+
     /* generate HTML based on template */
     const generatedHTML = templates.cartProduct(menuProduct);
     /* create element using utils.createDOMFromHTML */
@@ -129,20 +130,25 @@ class Cart{
 
   }
 
-  update(){
+  update() {
     const thisCart = this;
 
     thisCart.totalNumber = 0;
     thisCart.subtotalPrice = 0;
-  //console.log(thisCart.products);
+
+    console.log(thisCart.products);
 
     for(let product of thisCart.products){
       thisCart.subtotalPrice  = thisCart.subtotalPrice + product.price;
       thisCart.totalNumber  = thisCart.totalNumber + product.amount;
     }
-    //console.log(product.amount);
+
+    thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
+
     for(let key of thisCart.renderTotalsKeys){
+
       for(let elem of thisCart.dom[key]){
+        console.log(elem, thisCart[key], thisCart, key);
         elem.innerHTML = thisCart[key];
       }
     }

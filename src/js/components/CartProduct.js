@@ -12,7 +12,7 @@ class CartProduct{
     thisCartProduct.name = menuProduct.name;
     thisCartProduct.price = menuProduct.price;
     thisCartProduct.priceSingle = menuProduct.priceSingle;
-    thisCartProduct.amount = thisCartProduct.amountWidget;
+    thisCartProduct.amount = menuProduct.amount;
     thisCartProduct.params = JSON.parse(JSON.stringify(menuProduct.params));
 
 
@@ -40,10 +40,11 @@ class CartProduct{
 
     const thisCartProduct = this;
 
+    console.log("Amountwidget dom", thisCartProduct.dom.amountWidget);
     thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
+    console.log(thisCartProduct.amountWidget);
 
     thisCartProduct.dom.amountWidget.addEventListener('updated', function(){
-      //console.log(thisCartProduct.amountWidget);
       thisCartProduct.amount = thisCartProduct.amountWidget.value;
       thisCartProduct.price = thisCartProduct.priceSingle * thisCartProduct.amount;
       thisCartProduct.dom.price.innerHTML = thisCartProduct.price;

@@ -25,7 +25,9 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "dependencies": {},
+    "dependencies": {
+        "json-server": "^0.15.0"
+    },
     "devDependencies": {
         "autoprefixer-cli": "^1.0.0",
         "browser-sync": "^2.26.3",
