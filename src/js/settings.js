@@ -92,10 +92,6 @@ export const classNames = {
   pages: {
     active: 'active',
   },
-  hours: {
-   open: 12,
-   close: 24,
- },
   // CODE ADDED END
 };
 
@@ -105,9 +101,12 @@ export const settings = {
     defaultMin: 1,
     defaultMax: 9,
   },
-  datePicker: {
-    maxDaysInFuture: 14,
-  },// CODE CHANGED
+
+  hours: {
+   open: 12,
+   close: 24,
+ },
+  // CODE CHANGED
   // CODE ADDED START
   cart: {
     defaultDeliveryFee: 20,
@@ -126,6 +125,25 @@ export const settings = {
     notRepeatParam: 'repeat=false',
     repeatParam: 'repeat_ne=false',
   },
+
+  picker: {
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d",
+    maxDate: '',
+    minDate: '',
+    defaultDate: '',
+    disable: [
+        function(date) {
+            // return true to disable
+            return (date.getDay() === 1 || date.getDay() === 7);
+
+        }
+    ],
+    locale: {
+        "firstDayOfWeek": 1 // start week on Monday
+    }
+}
   // CODE ADDED END
 };
 

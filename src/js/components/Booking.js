@@ -3,6 +3,9 @@ import utils from '../utils.js';
 import Product from './Product.js';
 import AmountWidget from './AmountWidget.js';
 import CartProduct from './CartProduct.js';
+import DatePicker from './DatePicker.js';
+import HourPicker from './HourPicker.js';
+
 
 
 class Booking{
@@ -27,6 +30,8 @@ class Booking{
 
     thisBooking.dom.peopleAmount = document.querySelector(select.booking.peopleAmount);
     thisBooking.dom.hoursAmount = document.querySelector(select.booking.hoursAmount);
+    thisBooking.dom.datePicker = document.querySelector(select.datePicker.wrapper);
+    thisBooking.dom.hourPicker = document.querySelector(select.hourPicker.wrapper);
     //console.log(thisBooking.dom.hoursAmount);
 
   }
@@ -36,6 +41,8 @@ class Booking{
     //console.log(thisBooking.dom);
     thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
     thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
+    thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
+    thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
   }
 }
 

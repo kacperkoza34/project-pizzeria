@@ -5,6 +5,7 @@ import Cart from './components/Cart.js';
 import AmountWidget from './components/AmountWidget.js';
 import CartProduct from './components/CartProduct.js';
 import Booking from './components/Booking.js';
+import BaseWidget from './components/BaseWidget.js';
 
 
 const app = {
@@ -17,7 +18,7 @@ const app = {
 
 
   const idFromHash = window.location.hash.replace('#/','');
-  console.log('idFromHash:', idFromHash);
+  //console.log('idFromHash:', idFromHash);
 
   let pageMatchingHash = thisApp.pages[0].id;
 
