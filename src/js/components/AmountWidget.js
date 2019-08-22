@@ -64,7 +64,6 @@ class AmountWidget extends BaseWidget{
   setValue(value, float){
     const thisWidget = this;
     if(float){
-      console.log('1');
       if(value <=0) value = 0;
       else if(value >=9) value = 9;
       thisWidget.correctValue = value;

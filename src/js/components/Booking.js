@@ -165,6 +165,7 @@ class Booking{
 
   }
 
+
   /*===========================================*/
   tableListner(){
     const thisBooking = this;
@@ -183,7 +184,6 @@ class Booking{
     });
     thisBooking.datePicker.dom.input.addEventListener('change', function(){
       correctTable = false;
-
     });
 
 
@@ -191,9 +191,12 @@ class Booking{
     confirm.addEventListener('click', function(){
       event.preventDefault();
       if(correctTable){
-        thisBooking.sendBooking(correctTable);
+        if(thisBooking.checkDuration(thisBooking.hoursAmount.dom.input.value,correctTable)){
+          thisBooking.sendBooking(correctTable);
           thisBooking.updateDOM();
           correctTable = false;
+        }
+        else window.alert('Your order is to long!');
       }
       else window.alert('Choose table!');
     });
@@ -232,7 +235,7 @@ class Booking{
     const adress = bookingWrapper.querySelector(select.cart.address).value;
     const phone = bookingWrapper.querySelector(select.cart.phone).value;
     const people = thisBooking.peopleAmount.dom.input.value;
-    const hours = thisBooking.hoursAmount.dom.input.value;
+    const hours = parseFloat(thisBooking.hoursAmount.dom.input.value);
 
 
 
@@ -273,6 +276,33 @@ class Booking{
 
  /*===========================================*/
 
+
+ checkDuration(duration, correctTable){
+   const thisBooking = this;
+   //console.log(duration);
+   //console.log(thisBooking.booked);
+   //console.log(thisBooking.booked[thisBooking.date][thisBooking.hour]);
+   let endOfOrder = parseFloat(thisBooking.hour)+parseFloat(duration);
+   let result = false;
+    for(let i = parseFloat(thisBooking.hour); i<endOfOrder; i += 0.5){
+      console.log(i,thisBooking.booked[thisBooking.date][i], correctTable);
+      if(typeof thisBooking.booked[thisBooking.date][i] == 'undefined'){
+        if(i<settings.hours.open || i>=settings.hours.close){
+          window.alert('Open to 00:00 ');
+          return false;
+        }
+      }
+      else{
+        if((thisBooking.booked[thisBooking.date][i].includes(correctTable))){
+          //console.log(i,thisBooking.booked[thisBooking.date][i], correctTable);
+          window.alert('Next order start at ' + utils.numberToHour(i));
+          return false;
+        }
+      }
+    }
+
+    return true;
+ }
 
 
   render(bookingPage){
