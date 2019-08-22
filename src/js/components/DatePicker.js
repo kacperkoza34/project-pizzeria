@@ -1,5 +1,9 @@
 import {settings, select, templates, classNames} from '../settings.js';
 import utils from '../utils.js';
+import Cart from './Cart.js';
+import Product from './Product.js';
+import CartProduct from './CartProduct.js';
+import Booking from './Booking.js';
 import BaseWidget from './BaseWidget.js';
 
 class DatePicker extends BaseWidget {

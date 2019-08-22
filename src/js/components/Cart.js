@@ -96,6 +96,8 @@ class Cart{
       .then(function(respons){
         return respons.json();
       }).then(function(parsedResponse){
+
+
         console.log('parsedResponse', parsedResponse);
       });
 
@@ -148,7 +150,7 @@ class Cart{
     for(let key of thisCart.renderTotalsKeys){
 
       for(let elem of thisCart.dom[key]){
-        console.log(elem, thisCart[key], thisCart, key);
+  //      console.log(elem, thisCart[key], thisCart, key);
         elem.innerHTML = thisCart[key];
       }
     }

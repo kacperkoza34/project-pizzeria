@@ -16,7 +16,7 @@ class HourPicker extends BaseWidget {
   initPlugin(hour){
     const thisWidget = this;
     const correctHour = utils.numberToHour(hour);
-    console.log('data:', hour);
+    //console.log('data:', hour);
     rangeSlider.create(thisWidget.dom.input);
     thisWidget.renderValue(correctHour);
   }
