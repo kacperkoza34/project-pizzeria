@@ -161,6 +161,7 @@ class Booking{
       } else {
         table.classList.remove(classNames.booking.tableBooked);
       }
+      table.classList.remove(classNames.booking.clicked);
     }
 
   }
@@ -176,14 +177,21 @@ class Booking{
       allTables[i].addEventListener('click', function(){
         thisBooking.displayTable(allTables[i], allTables);
         correctTable = thisBooking.checkTable(allTables[i]);
+        if(thisBooking.hourPicker.dom.output.innerHTML != '0:00') thisBooking.initNewWidget(thisBooking.hoursAmount.dom.input.value,correctTable);
+        else{
+          window.alert('Choose other hour!');
+        }
       });
     }
 
     thisBooking.hourPicker.dom.input.addEventListener('change', function(){
       correctTable = false;
+      thisBooking.initNewWidget(thisBooking.hoursAmount.dom.input.value,correctTable);
+
     });
     thisBooking.datePicker.dom.input.addEventListener('change', function(){
       correctTable = false;
+      thisBooking.initNewWidget(thisBooking.hoursAmount.dom.input.value,correctTable);
     });
 
 
@@ -191,12 +199,13 @@ class Booking{
     confirm.addEventListener('click', function(){
       event.preventDefault();
       if(correctTable){
-        if(thisBooking.checkDuration(thisBooking.hoursAmount.dom.input.value,correctTable)){
+        console.log(thisBooking.hourPicker.dom.output.innerHTML != '0:00');
+        if(correctTable != false && thisBooking.hourPicker.dom.output.innerHTML != '0:00'){
           thisBooking.sendBooking(correctTable);
           thisBooking.updateDOM();
           correctTable = false;
         }
-        else window.alert('Your order is to long!');
+        else window.alert('Your reservation is to long!');
       }
       else window.alert('Choose table!');
     });
@@ -213,18 +222,25 @@ class Booking{
 
   displayTable(table, allTables){
     const thisBooking = this;
-    for(let i = 0; i<3; i++){
+      for(let i = 0; i<3; i++){
       let tableNumber = allTables[i].getAttribute('data-table');
       if(typeof thisBooking.booked[thisBooking.date][thisBooking.hour] != 'undefined'){
         if(!thisBooking.booked[thisBooking.date][thisBooking.hour].includes(parseInt(tableNumber))){
-          allTables[i].classList.remove(classNames.booking.tableBooked);
+          allTables[i].classList.remove(classNames.booking.clicked);
         }
       }
       else if(typeof thisBooking.booked[thisBooking.date][thisBooking.hour] == 'undefined'){
-        allTables[i].classList.remove(classNames.booking.tableBooked);
+        allTables[i].classList.remove(classNames.booking.clicked);
       }
     }
-    table.classList.add(classNames.booking.tableBooked);
+
+    let newAtribute = table.getAttribute('data-table');
+    if(typeof thisBooking.booked[thisBooking.date][thisBooking.hour] == 'undefined'){
+      table.classList.add(classNames.booking.clicked);
+    }
+    else if(!thisBooking.booked[thisBooking.date][thisBooking.hour].includes(parseInt(newAtribute))){
+      table.classList.add(classNames.booking.clicked);
+    }
   }
 
 
@@ -265,13 +281,11 @@ class Booking{
       .then(function(respons){
         return respons.json();
       }).then(function(parsedResponse){
-        console.log('parsedResponse', parsedResponse);
+        window.alert('Order accepted!');
+        thisBooking.getData();
+        //console.log('parsedResponse', parsedResponse);
       });
 
-      setTimeout(function(){
-        thisBooking.getData();
-        window.alert('Order accepted!');
-      }, 500);
   }
 
  /*===========================================*/
@@ -283,27 +297,77 @@ class Booking{
    //console.log(thisBooking.booked);
    //console.log(thisBooking.booked[thisBooking.date][thisBooking.hour]);
    let endOfOrder = parseFloat(thisBooking.hour)+parseFloat(duration);
-   let result = false;
-    for(let i = parseFloat(thisBooking.hour); i<endOfOrder; i += 0.5){
-      console.log(i,thisBooking.booked[thisBooking.date][i], correctTable);
-      if(typeof thisBooking.booked[thisBooking.date][i] == 'undefined'){
-        if(i<settings.hours.open || i>=settings.hours.close){
-          window.alert('Open to 00:00 ');
-          return false;
-        }
-      }
-      else{
-        if((thisBooking.booked[thisBooking.date][i].includes(correctTable))){
-          //console.log(i,thisBooking.booked[thisBooking.date][i], correctTable);
-          window.alert('Next order start at ' + utils.numberToHour(i));
-          return false;
-        }
-      }
-    }
+   let maxValueOfWidget;
+   for(let i = parseFloat(thisBooking.hour); i<=endOfOrder; i += 0.5){
+     maxValueOfWidget = i - parseFloat(thisBooking.hour);
+     //console.log('================================================');
+     //console.log('maxValueOfWidget: ',maxValueOfWidget);
+     //console.log('godzina wybrana przez uzutkownika: ', parseFloat(thisBooking.hour));
+     //console.log('godzina dla ktorej sprawdzamy: ', i);
+     //console.log('koniec rezerwacji: ', endOfOrder);
 
-    return true;
+     //console.log(i,thisBooking.booked[thisBooking.date][i], correctTable);
+     if(typeof thisBooking.booked[thisBooking.date][i] == 'undefined'){
+       //thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, maxValueOfWidget);
+       if(i<settings.hours.open || i>=settings.hours.close){
+       window.alert('Open to 00:00 ');
+       //return false;
+       }
+     }
+     else{
+       if((thisBooking.booked[thisBooking.date][i].includes(correctTable))){
+        //console.log(i,thisBooking.booked[thisBooking.date][i], correctTable);
+        //console.log('maksymalna wartośc widgetu: ',maxValueOfWidget);
+        //console.log('Next reservation starts at ' + i);
+        //console.log('godzina wybranej rezerwacji: ' + parseFloat(thisBooking.hour));
+        //console.log('rezerwacja sie nie wykona bo jest za długa nastepna o ', i, 'maksymalna wartoc widgetu to: ',maxValueOfWidget );
+        //thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, maxValueOfWidget);
+        //return false;
+       }
+       //else thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, maxValueOfWidget);
+     }
+   }
+   //console.log('rezerwacja jest ok, maksymalna wartoc widgetu to: ',maxValueOfWidget );
+   //return true;
  }
+  initNewWidget(duration, correctTable){
+    const thisBooking = this;
+    let endOfOrder = parseFloat(thisBooking.hour)+parseFloat(duration);
+    let maxValueOfWidget;
+    let i = parseFloat(thisBooking.hour) - 0.5;
+    let doOrNot;
+    if(correctTable){
+      do{
+        i += 0.5;
+        maxValueOfWidget = i - parseFloat(thisBooking.hour);
+        //console.log('======================================');
+        //console.log('sprawdzana godzina: ', i);
+        if(typeof thisBooking.booked[thisBooking.date][i] == 'undefined'){
+          doOrNot = false;
+          if(i == 24){
+            doOrNot = true;
+          }
+        }
+        else if(i == 0){
+          console.log('opcja numer3');
+          thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, 0);
+        }
 
+        else doOrNot = thisBooking.booked[thisBooking.date][i].includes(correctTable);
+        //console.log('tablica zajętych stolików w danej godzine: ',thisBooking.booked[thisBooking.date][i]);
+        //console.log('wybrany stolik: ', correctTable);
+        //console.log('warunek: ',doOrNot);
+      }while(!doOrNot);
+
+      //console.log('finalana maxValueOfWidget: ',maxValueOfWidget);
+      console.log('opcja numer2');
+      thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, maxValueOfWidget);
+    }
+    else{
+      console.log('opcja numer1');
+      thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, 9);
+    }
+  }
 
   render(bookingPage){
     const thisBooking = this;
@@ -331,11 +395,9 @@ class Booking{
   initWidgets(){
     const thisBooking = this;
     //console.log(thisBooking.dom);
-    const float = true;
-    const notFloat = false;
-
-    thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount, notFloat);
-    thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, float);
+    //const test = 3.5;
+    thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
+    thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, 0);
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
 

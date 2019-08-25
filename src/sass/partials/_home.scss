@@ -1,0 +1,158 @@
+.home{
+  margin-top: 40px;
+  padding: ($base-size * 6) ($base-size * 4);
+  background: $color-light;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;
+  display: flex;
+}
+.images-wrapper{
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.image, .image-1{
+  width: 300px;
+  height: 122px;
+  background-image: url('../../images/pizza-1.jpg');
+  background-size: contain;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+.image-1{
+  background-image: url('../../images/pizza-2.jpg');
+  background-size: cover;
+}
+.large-button{
+  margin-top: 5px;
+  width: 605px;
+  height: 122px;
+  background: $color-main;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+.sub-wrapper{
+  width:605px;
+  margin-top: 100px;
+  height: 300px;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;
+}
+.carousel-wrapper{
+  height: 195px;
+  display: flex;
+}
+.box-1{
+  width: 32%;
+  height: 195px;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;
+}
+.box-2{
+  color: black;
+  line-height: 20px;
+  width: 68%;
+  padding: 0 40px 40px 40px;
+  height: 195px;
+  flex-grow: 5;
+}
+.foto-wrapper{
+  margin-top: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.box{
+  height: 195px;
+  width: 195px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;
+}
+img{
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;
+}
+u{
+  color: $color-main;
+}
+.button-title{
+  color: white;
+  z-index:20;
+  padding: 20px 0 20px 0;
+  transition: padding 0.5s;
+  text-align: center;
+}
+.button-title:hover{
+  cursor: pointer;
+  padding: 0;
+}
+
+.button-title:hover > .button-subtitle{
+  margin: 0;
+  display: block;
+  line-height: 0;
+}
+.button-subtitle{
+  display: none;
+  margin-top:45px;
+  transition: margin 0.5s;
+  transition: line-height 0.5s;
+
+}
+
+.large-title{
+  color: white;
+  z-index:20;
+  text-align: center;
+}
+.box{
+  position: relative;
+}
+.box:hover:after{
+  content:'';
+   opacity: 0.3;
+   width: 100%;
+   top: 0px;
+   height: 100%;
+   background-color: black;
+   position: absolute;
+   border-bottom: 1px solid lighten($color-dark, 70%);
+   border-radius: $radius;
+   cursor: pointer;
+}
+.box:hover > span{
+  display: block;
+}
+
+.box span{
+  display: none;
+  font-size: 20px;
+  z-index: 20;
+}
+.fa-heart{
+  color: red;
+  position: absolute;
+  top: 90px;
+  right: 105px;
+}
+.fa-share-alt{
+  color: white;
+  position: absolute;
+  top: 90px;
+  right: 70px;
+}
+.none{
+  display: none;
+}

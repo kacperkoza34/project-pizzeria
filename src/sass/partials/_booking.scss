@@ -7,6 +7,9 @@
     display: block;
   }
 }
+a{
+  text-decoration: none;
+}
 
  .booking-widget {
   transform: opacity 500ms;
@@ -171,6 +174,9 @@
         background: $color-dark;
         opacity: 0.4;
       }
+     }
+     &.clicked-table{
+       background-color: RGBA(0, 255, 0, 40%);
      }
   }
 

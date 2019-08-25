@@ -1,0 +1,63 @@
+.z-slide-wrap {
+  position: relative;
+  display: block;
+  height: 300px;
+}
+.z-slide-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+}
+.z-slide-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform: translate3d(0, 0, 0);
+}
+.z-slide-item > a {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.z-slide-item img {
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+.z-slide-indicator {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  z-index: 10;
+}
+.z-slide-indicator .z-slide-dot {
+  display: block;
+  float: left;
+  width: 10px;
+  height: 10px;
+  margin-left: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background-color: RGBA(0,0,0, 0.2);
+}
+.z-slide-indicator .z-slide-dot.active {
+  background-color: black;
+}
+
+/*# sourceMappingURL=zSlider.css.map */

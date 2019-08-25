@@ -5,10 +5,13 @@ export const select = {
     bookingWidget: '#template-booking-widget',
   },
   containerOf: {
+  //  home: '#home',
+    homeLogo: '#home',
     menu: '#product-list',
     cart: '#cart',
     pages: '#pages',
     booking: '.booking-wrapper',
+    nav: '.main-nav',
   },
   all: {
     menuProducts: '#product-list > .product',
@@ -85,6 +88,7 @@ export const classNames = {
   booking: {
     loading: 'loading',
     tableBooked: 'booked',
+    clicked: 'clicked-table',
   },
   nav: {
     active: 'active',

@@ -10,6 +10,7 @@
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="./vendor/range-slider.min.css">
+  <link rel="stylesheet" href="./vendor//zSlider.css">
 
 </head>
 <body>
@@ -17,15 +18,17 @@
   <header class="header">
     <div class="container">
       <div class="header__wrapper">
-        <div class="logo">
-          <h1 class="logo__title"><span>Mamma</span>Mia!</h1>
-          <h2 class="logo__subtitle">the best homemade Italian food</h2>
-        </div>
-        <div class="main-nav">
+        <a href="#home">
+          <div class="logo">
+            <h1 class="logo__title"><span>Mamma</span>Mia!</h1>
+            <h2 class="logo__subtitle">the best homemade Italian food</h2>
+          </div>
+        </a>
+        <div class="main-nav none">
           <a href="#order">Order</a>
           <a href="#booking">Booking</a>
         </div>
-        <div id="cart" class="cart">
+        <div id="cart" class="cart none">
           <div class="cart__summary">
             <span class="cart__total-number">0</span>
             <span class="cart__total-price">Total price: $<strong>0</strong></span>
@@ -69,6 +72,117 @@
       <section id="booking">
         <div class="booking-wrapper container"></div>
       </section>
+
+      <section id='home' class='home-page'>
+        <div class='container home'>
+          <div class='images-wrapper'>
+            <a href="#order">
+              <div class='image'>
+                <div class="button-title">
+                  <h2>ORDER ONLINE</h2>
+                  <h5 class="button-subtitle">Delicious food delivery to your door</h5>
+                </div>
+              </div>
+            </a>
+            <a href="#booking">
+              <div class='image-1'>
+                <div class="button-title">
+                  <h2>BOOK A TABLE</h2>
+                  <h5 class="button-subtitle">Delicious food delivery to your door</h5>
+                </div>
+              </div>
+            </a>
+            <div class='large-button'>
+              <div class="large-title">
+                <h2>OPENING HOURS:</h2>
+                <h4>TUE-SUN, 12PM-12AM</h4>
+              </div>
+            </div>
+            <div class='sub-wrapper'>
+
+
+              <div class="z-slide-wrap" id="demo">
+                <ul class="z-slide-content">
+                  <li class="z-slide-item carousel-wrapper">
+                    <div class="box-1">
+                      <img src="images/pizza-3.jpg" alt="image">
+                    </div>
+                    <div class="box-2">
+                      <h4>Amazing service</h4>
+                      <p>
+                        Or kind rest bred with am shed then. In raptures building an bringing be.
+                        Elderly is detract tedious assured private so to visited. Do travelling
+                      </p>
+                      <p><i>-Jan Kowalski</i></p>
+                    </div>
+                  </li>
+                  <li class="z-slide-item carousel-wrapper">
+                    <div class="box-1">
+                      <img src="images/pizza-4.jpg" alt="image">
+                    </div>
+                    <div class="box-2">
+                      <h4>Amazing service</h4>
+                      <p>
+                        Or kind rest bred with am shed then. In raptures building an bringing be.
+                        Elderly is detract tedious assured private so to visited. Do travelling
+                      </p>
+                      <p><i>-Jan Kowalski</i></p>
+                    </div>
+
+                  </li>
+                  <li class="z-slide-item carousel-wrapper">
+                    <div class="box-1">
+                      <img src="images/pizza-5.jpg" alt="image">
+                    </div>
+                    <div class="box-2">
+                      <h4>Amazing service</h4>
+                      <p>
+                        Or kind rest bred with am shed then. In raptures building an bringing be.
+                        Elderly is detract tedious assured private so to visited. Do travelling
+                      </p>
+                      <p><i>-Jan Kowalski</i></p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="foto-wrapper">
+              <div class="box">
+                <span class="fas fa-heart"></span>
+                <span class="fas fa-share-alt"></span>
+                <img src="images/pizza-4.jpg" alt="image">
+              </div>
+              <div class="box">
+                <span class="fas fa-heart"></span>
+                <span class="fas fa-share-alt"></span>
+                <img src="images/pizza-5.jpg" alt="image">
+              </div>
+              <div class="box">
+                <span class="fas fa-heart"></span>
+                <span class="fas fa-share-alt"></span>
+                <img src="images/pizza-6.jpg" alt="image">
+              </div>
+              <div class="box">
+                <span class="fas fa-heart"></span>
+                <span class="fas fa-share-alt"></span>
+                <img src="images/pizza-7.jpg" alt="image">
+              </div>
+              <div class="box">
+                <span class="fas fa-heart"></span>
+                <span class="fas fa-share-alt"></span>
+                <img src="images/pizza-8.jpg" alt="image">
+              </div>
+              <div class="box">
+                <span class="fas fa-heart"></span>
+                <span class="fas fa-share-alt"></span>
+                <img src="images/pizza-9.jpg" alt="image">
+              </div>
+            </div>
+            <link href="#"><u>View more on instagram</u></link>
+          </div>
+        </div>
+      </section>
+
     </div>
 
      <script id="template-booking-widget" type="text/x-handlebars-template">
@@ -247,6 +361,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
   <script src="js/app.js" type="module"></script>
   <script src="./vendor/range-slider.min.js"></script>
+  <script src="./vendor/zSlider.js"></script>
 
 </body>
 </html>

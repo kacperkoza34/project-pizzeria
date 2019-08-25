@@ -9,18 +9,46 @@ import BaseWidget from './components/BaseWidget.js';
 
 
 const app = {
+
+  initHomePage: function(){
+    const thisApp = this;
+
+    setTimeout(function(){
+      const slider = new Slider('#demo', '.z-slide-item', {
+        'current': 2,
+        'duration': 0.8,
+        'minPercentToSlide': null,
+        'autoplay': true,
+        'direction': 'left',
+        'interval': 3
+      });
+  },1000);
+},
+
   initPages: function(){
   const thisApp = this;
 
   thisApp.pages = document.querySelector(select.containerOf.pages).children;
+  //console.log('pages: ', thisApp.pages );
 
   thisApp.navLinks = document.querySelectorAll(select.nav.links);
+  //console.log('navLinks: ', thisApp.navLinks );
+
+  thisApp.linksArray = Array.from(thisApp.navLinks);
+
+  /* NEW BUTTONS */
+  thisApp.home = document.querySelector('.header__wrapper a');
+  thisApp.home.option = document.querySelectorAll('.home-page a');
+  /*ADD NEW BUTTONS TO ACTIVE ELEMENTS*/
+  for(let option of thisApp.home.option){
+    thisApp.linksArray.unshift(option);
+  }
+  thisApp.linksArray.unshift(thisApp.home);
 
 
   const idFromHash = window.location.hash.replace('#/','');
-  //console.log('idFromHash:', idFromHash);
 
-  let pageMatchingHash = thisApp.pages[0].id;
+  let pageMatchingHash = thisApp.pages[2].id;
 
   for(let page of thisApp.pages){
     if(page.id == idFromHash){
@@ -31,7 +59,8 @@ const app = {
 
   thisApp.activatePage(pageMatchingHash);
 
-  for(let link of thisApp.navLinks){
+  for(let link of thisApp.linksArray){
+    //console.log('link z node list:',link);
     link.addEventListener('click', function(event){
       const clickedElement = this;
       event.preventDefault();
@@ -48,18 +77,36 @@ const app = {
 
   activatePage: function(pageId){
     const thisApp = this;
+
+    const cartElem = document.querySelector(select.containerOf.cart);
+    const navElem = document.querySelector(select.containerOf.nav);
+    let check;
     for(let page of thisApp.pages){
     page.classList.toggle(classNames.pages.active, page.id == pageId);
     }
 
-    for(let link of thisApp.navLinks){
+
+    for(let link of thisApp.linksArray){
+      //console.log('link z node list:',link);
       link.classList.toggle(
         classNames.nav.active,
         link.getAttribute('href') == '#' + pageId
       );
+      if(link.getAttribute('href') == '#' + pageId & '#' + pageId == '#home') check = true;
+      console.log(link.getAttribute('href'));
+    }
+
+    if(check){
+      cartElem.classList.add('none');
+      navElem.classList.add('none');
+    }
+    else{
+      cartElem.classList.remove('none');
+      navElem.classList.remove('none');
     }
 
   },
+
 
   initBooking: function(){
     const book = document.querySelector(select.containerOf.booking);
@@ -102,6 +149,8 @@ const app = {
       //console.log('settings:', settings);
       //console.log('templates:', templates);
 
+      thisApp.initHomePage();
+
       thisApp.initData();
       thisApp.initCart();
       thisApp.initPages();
@@ -112,6 +161,11 @@ const app = {
       const thisApp = this;
 
       const cartElem = document.querySelector(select.containerOf.cart);
+
+      /* Active cart after click in booking or order
+      ===============================================
+      */
+
       thisApp.cart = new Cart(cartElem);
 
       thisApp.productList = document.querySelector(select.containerOf.menu);
