@@ -156,3 +156,23 @@ u{
 .none{
   display: none;
 }
+
+
+.decoration:link {
+  color: white;
+}
+
+/* visited link */
+.decoration:visited {
+  color: white;
+}
+
+/* mouse over link */
+.decoration:hover {
+  color: white;
+}
+
+/* selected link */
+.decoration:active {
+  color: white;
+}
