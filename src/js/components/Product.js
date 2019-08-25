@@ -123,7 +123,7 @@ class Product{
     thisProduct.amountWidgetElem.addEventListener('updated', function(){
       thisProduct.processOrder();
     });
-    thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+    thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem, false,0);
   }
 
   getElements(){

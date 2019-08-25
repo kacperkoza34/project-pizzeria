@@ -1,1 +1,1 @@
-https://shrouded-cove-991333.herokuapp.com/#/booking
+https://shrouded-cove-991333.herokuapp.com
