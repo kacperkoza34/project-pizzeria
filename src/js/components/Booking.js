@@ -215,6 +215,9 @@ class Booking{
     const thisBooking = this;
     let numberOfTable = parseInt(table.getAttribute('data-table'));
     //console.log(thisBooking.booked[thisBooking.date][thisBooking.hour]);
+    if(typeof thisBooking.booked[thisBooking.date] == 'undefined'){
+      thisBooking.booked[thisBooking.date] = {};
+    }
     if(typeof thisBooking.booked[thisBooking.date][thisBooking.hour] == 'undefined'){ return numberOfTable; }
     else if(thisBooking.booked[thisBooking.date][thisBooking.hour].includes(numberOfTable)){ return false;}
     else { return numberOfTable; }
@@ -223,6 +226,9 @@ class Booking{
   displayTable(table, allTables){
     const thisBooking = this;
       for(let i = 0; i<3; i++){
+      if(typeof thisBooking.booked[thisBooking.date] == 'undefined'){
+        thisBooking.booked[thisBooking.date] = {};
+      }
       let tableNumber = allTables[i].getAttribute('data-table');
       if(typeof thisBooking.booked[thisBooking.date][thisBooking.hour] != 'undefined'){
         if(!thisBooking.booked[thisBooking.date][thisBooking.hour].includes(parseInt(tableNumber))){
@@ -342,6 +348,9 @@ class Booking{
         maxValueOfWidget = i - parseFloat(thisBooking.hour);
         //console.log('======================================');
         //console.log('sprawdzana godzina: ', i);
+        if(typeof thisBooking.booked[thisBooking.date] == 'undefined'){
+          thisBooking.booked[thisBooking.date] = {};
+        }
         if(typeof thisBooking.booked[thisBooking.date][i] == 'undefined'){
           doOrNot = false;
           if(i == 24){
@@ -349,7 +358,7 @@ class Booking{
           }
         }
         else if(i == 0){
-          console.log('opcja numer3');
+          //console.log('opcja numer3');
           thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, 0);
         }
 
@@ -360,12 +369,12 @@ class Booking{
       }while(!doOrNot);
 
       //console.log('finalana maxValueOfWidget: ',maxValueOfWidget);
-      console.log('opcja numer2');
+      //console.log('opcja numer2');
       thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, maxValueOfWidget);
     }
     else{
-      console.log('opcja numer1');
-      thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, 9);
+      //console.log('opcja numer1');
+      //thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, true, 9);
     }
   }
 

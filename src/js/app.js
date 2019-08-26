@@ -93,7 +93,7 @@ const app = {
         link.getAttribute('href') == '#' + pageId
       );
       if(link.getAttribute('href') == '#' + pageId & '#' + pageId == '#home') check = true;
-      console.log(link.getAttribute('href'));
+      //console.log(link.getAttribute('href'));
     }
 
     if(check){

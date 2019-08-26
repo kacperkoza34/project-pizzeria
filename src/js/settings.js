@@ -141,7 +141,6 @@ export const settings = {
         function(date) {
             // return true to disable
             return (date.getDay() === 1 || date.getDay() === 7);
-
         }
     ],
     locale: {
